@@ -1,0 +1,15 @@
+C:\Users\Ridwan Hidayatullah\Videos\IPFSUITE\IPFSuite\bin\Release\IPFSuite.exe.config
+C:\Users\Ridwan Hidayatullah\Videos\IPFSUITE\IPFSuite\bin\Release\IPFSuite.exe
+C:\Users\Ridwan Hidayatullah\Videos\IPFSUITE\IPFSuite\bin\Release\IPFSuite.pdb
+C:\Users\Ridwan Hidayatullah\Videos\IPFSUITE\IPFSuite\bin\Release\FastColoredTextBox.dll
+C:\Users\Ridwan Hidayatullah\Videos\IPFSUITE\IPFSuite\obj\Release\IPFSuite.csproj.AssemblyReference.cache
+C:\Users\Ridwan Hidayatullah\Videos\IPFSUITE\IPFSuite\obj\Release\IPFSuite.csproj.SuggestedBindingRedirects.cache
+C:\Users\Ridwan Hidayatullah\Videos\IPFSUITE\IPFSuite\obj\Release\Model3DUserControl.g.cs
+C:\Users\Ridwan Hidayatullah\Videos\IPFSUITE\IPFSuite\obj\Release\IPFSuite_MarkupCompile.cache
+C:\Users\Ridwan Hidayatullah\Videos\IPFSUITE\IPFSuite\obj\Release\IPFSuite_MarkupCompile.lref
+C:\Users\Ridwan Hidayatullah\Videos\IPFSUITE\IPFSuite\obj\Release\Model3DUserControl.baml
+C:\Users\Ridwan Hidayatullah\Videos\IPFSUITE\IPFSuite\obj\Release\IPFSuite.g.resources
+C:\Users\Ridwan Hidayatullah\Videos\IPFSUITE\IPFSuite\obj\Release\IPFSuite.csproj.CoreCompileInputs.cache
+C:\Users\Ridwan Hidayatullah\Videos\IPFSUITE\IPFSuite\obj\Release\IPFSuite.csproj.CopyComplete
+C:\Users\Ridwan Hidayatullah\Videos\IPFSUITE\IPFSuite\obj\Release\IPFSuite.exe
+C:\Users\Ridwan Hidayatullah\Videos\IPFSUITE\IPFSuite\obj\Release\IPFSuite.pdb

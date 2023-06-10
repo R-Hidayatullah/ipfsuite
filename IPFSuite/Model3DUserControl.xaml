@@ -1,0 +1,15 @@
+<UserControl
+	x:Class="IPFSuite.Model3DUserControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	Focusable="True" xmlns:ipfsuite="clr-namespace:IPFSuite">
+	<Grid
+		MouseWheel="mouseWheel">
+		<Label
+			HorizontalAlignment="Center"
+			TextBlock.TextAlignment="Center"
+			FontSize="20"
+			Foreground="#FF000000"
+			Content="" />
+		<Viewport3D
+			Name="mainViewport" />
+	</Grid>
+</UserControl>

@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3633C25E-4774-4EEB-8D52-CFEE5C9C3F19}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>IPFSuite</RootNamespace>
+    <AssemblyName>IPFSuite</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60DC8134-EBA5-43B8-BCC9-BB4BC16C2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>IPFSuite.ico</ApplicationIcon>
+    <StartupObject>IPFSuite.Program</StartupObject>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FastColoredTextBox">
+      <HintPath>..\..\..\Music\IPF_Suite\IPF Suite\FastColoredTextBox.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DamienG\Security\Cryptography\Crc32.cs" />
+    <Compile Include="Extensions\BinaryReaderExtensions.cs" />
+    <Compile Include="FileFormats\FileLoaderException.cs" />
+    <Compile Include="FileFormats\FSB\FSB.cs" />
+    <Compile Include="FileFormats\FSB\FSB_LoaderException.cs" />
+    <Compile Include="FileFormats\IES\ColumnType.cs" />
+    <Compile Include="FileFormats\IES\FileIes.cs" />
+    <Compile Include="FileFormats\IES\IesColumn.2.cs" />
+    <Compile Include="FileFormats\IES\IESColumn.cs" />
+    <Compile Include="FileFormats\IES\IESColumnType.cs" />
+    <Compile Include="FileFormats\IES\IESFile.cs" />
+    <Compile Include="FileFormats\IES\IesHeader.2.cs" />
+    <Compile Include="FileFormats\IES\IESHeader.cs" />
+    <Compile Include="FileFormats\IES\IesRow.cs" />
+    <Compile Include="FileFormats\IPF\IPF.cs" />
+    <Compile Include="FileFormats\IPF\IPFFileTable.cs" />
+    <Compile Include="FileFormats\IPF\IPFFooter.cs" />
+    <Compile Include="FileFormats\IPF\PkwareTraditionalEncryptionData.cs" />
+    <Compile Include="FileFormats\XAC\EmoFxVertexElemUsage.cs" />
+    <Compile Include="FileFormats\XAC\EMOFX_CHUNK_TYPE.cs" />
+    <Compile Include="FileFormats\XAC\XAC.cs" />
+    <Compile Include="FileFormats\XAC\XAC_Color.cs" />
+    <Compile Include="FileFormats\XAC\XAC_Color8.cs" />
+    <Compile Include="FileFormats\XAC\XAC_Header.cs" />
+    <Compile Include="FileFormats\XAC\XAC_LoaderException.cs" />
+    <Compile Include="FileFormats\XAC\XAC_Material.cs" />
+    <Compile Include="FileFormats\XAC\XAC_MaterialTotals.cs" />
+    <Compile Include="FileFormats\XAC\XAC_Matrix44.cs" />
+    <Compile Include="FileFormats\XAC\XAC_Mesh.cs" />
+    <Compile Include="FileFormats\XAC\XAC_Node.cs" />
+    <Compile Include="FileFormats\XAC\XAC_Quaternion.cs" />
+    <Compile Include="FileFormats\XAC\XAC_ShaderMaterial.cs" />
+    <Compile Include="FileFormats\XAC\XAC_SubMesh.cs" />
+    <Compile Include="FileFormats\XAC\XAC_Vector2D.cs" />
+    <Compile Include="FileFormats\XAC\XAC_Vector3D.cs" />
+    <Compile Include="FileFormats\XAC\XAC_Vector4D.cs" />
+    <Compile Include="fMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fMain.Designer.cs">
+      <DependentUpon>fMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="KUtility\D3D10_RESOURCE_DIMENSION.cs" />
+    <Compile Include="KUtility\DDSImage.cs" />
+    <Compile Include="KUtility\DDS_HEADER.cs" />
+    <Compile Include="KUtility\DDS_HEADER_DXT10.cs" />
+    <Compile Include="KUtility\DDS_PIXELFORMAT.cs" />
+    <Compile Include="KUtility\DXGI_FORMAT.cs" />
+    <Compile Include="Model3DUserControl.xaml.cs">
+      <DependentUpon>Model3DUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Paloma\ColorMapType.cs" />
+    <Compile Include="Paloma\FirstPixelDestination.cs" />
+    <Compile Include="Paloma\HorizontalTransferOrder.cs" />
+    <Compile Include="Paloma\ImageType.cs" />
+    <Compile Include="Paloma\RLEPacketType.cs" />
+    <Compile Include="Paloma\TargaConstants.cs" />
+    <Compile Include="Paloma\TargaExtensionArea.cs" />
+    <Compile Include="Paloma\TargaFooter.cs" />
+    <Compile Include="Paloma\TargaHeader.cs" />
+    <Compile Include="Paloma\TargaImage.cs" />
+    <Compile Include="Paloma\TGAFormat.cs" />
+    <Compile Include="Paloma\Utilities.cs" />
+    <Compile Include="Paloma\VerticalTransferOrder.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <DependentUpon>Settings.settings</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SereniaBLPLib\DXTDecompression.cs" />
+    <Compile Include="ToolStripButtonBindable.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ucPreview.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="XAC_Extensions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="fMain.resources" />
+    <EmbeddedResource Include="Properties\Resources.resources" />
+    <EmbeddedResource Include="ucPreview.resources" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="app.manifest" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Model3DUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
