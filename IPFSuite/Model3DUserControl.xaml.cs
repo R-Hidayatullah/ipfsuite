@@ -183,7 +183,7 @@ namespace IPFSuite
         private List<Bitmap> loadTextures(XAC xac, string xacName, string ipfFolder, byte[] contentDds, string ddsName)
         {
             Bitmap[] array2 = new Bitmap[xac.MaterialTotals.NumFXMaterials];
-
+            Console.WriteLine(" ");
             List<string> list2 = new List<string>();
             foreach (XAC_ShaderMaterial xac_ShaderMaterial in xac.ShaderMaterials)
             {
@@ -216,22 +216,22 @@ namespace IPFSuite
             {
                 foreach (var item1 in list2)
                 {
-                    if (item.fileName == item1)
+                    if (item.fileName.ToLower() == item1.ToLower())
                     {
                         string text6 = item1.Split(new char[]
                                                       {
                                             '.'
-                                                      }).Last<string>();
+                                                      }).Last<string>().ToLower();
                         Bitmap bitmap = null;
                         int index_num = Array.FindIndex<string>(list2.ToArray(), (string t) => t.IndexOf(item1, StringComparison.InvariantCultureIgnoreCase) >= 0);
 
                         if (text6 != null)
                         {
-                            if (text6 == "dds")
+                            if (text6.ToLower() == "dds")
                             {
                                 bitmap = new DDSImage(bg_texture.Extract(item.idx)).images[0];
                             }
-                            if (text6 == "tga")
+                            if (text6.ToLower() == "tga")
                             {
                                 bitmap = new TargaImage(bg_texture.Extract(item.idx)).Image;
                             }
@@ -262,12 +262,12 @@ namespace IPFSuite
             {
                 foreach (var item1 in list2)
                 {
-                    if (item.fileName == item1)
+                    if (item.fileName.ToLower() == item1.ToLower())
                     {
                         string text6 = item1.Split(new char[]
                                                       {
                                             '.'
-                                                      }).Last<string>();
+                                                      }).Last<string>().ToLower();
                         Bitmap bitmap = null;
                         int index_num = Array.FindIndex<string>(list2.ToArray(), (string t) => t.IndexOf(item1, StringComparison.InvariantCultureIgnoreCase) >= 0);
 
@@ -307,22 +307,22 @@ namespace IPFSuite
             {
                 foreach (var item1 in list2)
                 {
-                    if (item.fileName == item1)
+                    if (item.fileName.ToLower() == item1.ToLower())
                     {
                         string text6 = item1.Split(new char[]
                                                       {
                                             '.'
-                                                      }).Last<string>();
+                                                      }).Last<string>().ToLower();
                         Bitmap bitmap = null;
                         int index_num = Array.FindIndex<string>(list2.ToArray(), (string t) => t.IndexOf(item1, StringComparison.InvariantCultureIgnoreCase) >= 0);
 
                         if (text6 != null)
                         {
-                            if (text6 == "dds")
+                            if (text6.ToLower() == "dds")
                             {
                                 bitmap = new DDSImage(char_texture.Extract(item.idx)).images[0];
                             }
-                            if (text6 == "tga")
+                            if (text6.ToLower() == "tga")
                             {
                                 bitmap = new TargaImage(char_texture.Extract(item.idx)).Image;
                             }
