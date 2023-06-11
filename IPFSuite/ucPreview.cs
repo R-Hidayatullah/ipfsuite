@@ -35,7 +35,7 @@ namespace IPFSuite
         }
 
         // Token: 0x060000BE RID: 190 RVA: 0x000083C0 File Offset: 0x000065C0
-        public async Task<bool> LoadFile(string filename, byte[] content)
+        public async Task<bool> LoadFile(string filename, byte[] content, byte[] contentDds,string ddsName)
         {
             this._previewType = ucPreview.PreviewType.None;
             this._extension = Path.GetExtension(filename).ToLowerInvariant();
@@ -105,7 +105,7 @@ namespace IPFSuite
                     this.BuildHexPreview(content);
                     break;
                 case ucPreview.PreviewType.Model:
-                    this.BuildModelPreview(filename, content);
+                    this.BuildModelPreview(filename, content,contentDds,ddsName);
                     break;
             }
             this.txtPreview.Visible = (this._previewType == ucPreview.PreviewType.Text);
@@ -117,18 +117,18 @@ namespace IPFSuite
         }
 
         // Token: 0x060000BF RID: 191 RVA: 0x00008414 File Offset: 0x00006614
-        private void BuildModelPreview(string filename, byte[] content)
+        private void BuildModelPreview(string filename, byte[] content, byte[] contentDds,string ddsName)
         {
             using (MemoryStream memoryStream = new MemoryStream(content))
             {
                 try
                 {
                     XAC xac = new XAC(memoryStream);
-                    ((Model3DUserControl)this.elementHost1.Child).SetModel(filename, xac);
+                    ((Model3DUserControl)this.elementHost1.Child).SetModel(filename, xac, contentDds,ddsName);
                 }
                 catch (XAC_LoaderException)
                 {
-                    ((Model3DUserControl)this.elementHost1.Child).SetModel(filename, null);
+                    ((Model3DUserControl)this.elementHost1.Child).SetModel(filename, null,null,null);
                     this._previewType = ucPreview.PreviewType.None;
                 }
             }

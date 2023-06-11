@@ -20,6 +20,7 @@ using IPFSuite.FileFormats.IPF;
 using IPFSuite.FileFormats.XAC;
 using KUtility;
 using Paloma;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace IPFSuite
 {
@@ -179,161 +180,179 @@ namespace IPFSuite
         }
 
         // Token: 0x060000B3 RID: 179 RVA: 0x00007BEC File Offset: 0x00005DEC
-        private List<Bitmap> loadTextures(XAC xac, string xacName, string ipfFolder)
+        private List<Bitmap> loadTextures(XAC xac, string xacName, string ipfFolder, byte[] contentDds, string ddsName)
         {
-            Console.WriteLine("load");
-            if (xac.MaterialTotals.NumFXMaterials != 0U)
+            Bitmap[] array2 = new Bitmap[xac.MaterialTotals.NumFXMaterials];
+            Boolean found = false;
+
+            List<string> list2 = new List<string>();
+            foreach (XAC_ShaderMaterial xac_ShaderMaterial in xac.ShaderMaterials)
             {
-                IPF ipf = null;
+                string item = null;
+                foreach (KeyValuePair<string, string> keyValuePair in xac_ShaderMaterial.StringProperties)
+                {
+                    if (keyValuePair.Key == "DiffuseTex")
+                    {
+                        item = keyValuePair.Value.ToLower().Replace(".tga", ".dds");
+
+                        break;
+                    }
+                }
+                list2.Add(item);
+            }
+
+            if (!found)
+            {
+
+                IPF temp_ipf = null;
                 try
                 {
-                    ipf = new IPF(ipfFolder + "\\ies_client.ipf");
+                    temp_ipf = new IPF(ipfFolder+"\\bg_texture.ipf");
                 }
                 catch
                 {
                     return null;
                 }
-                ipf.LoadSync();
-                Console.WriteLine("load ipf");
-                int i = 0;
-                while (i < ipf.FileTable.Length && !(ipf.FileTable[i].fileName == "xac.ies"))
+                temp_ipf.LoadSync();
+
+                foreach (var item in temp_ipf.FileTable)
                 {
-                    i++;
-                }
-                if (i < ipf.FileTable.Length)
-                {
-                    byte[] content = ipf.Extract(i);
-                    ipf.Close();
-                    FileIes iesfile;
-                    try
+                    foreach (var item1 in list2)
                     {
-                        iesfile = new FileIes(content);
-                    }
-                    catch
-                    {
-                        return null;
-                    }
-                    Console.WriteLine("load mesh");
-                    using (List<IesRow>.Enumerator enumerator = iesfile.Rows.GetEnumerator())
-                    {
-                        while (enumerator.MoveNext())
+                        if (item.fileName == item1)
                         {
-                            IesRow iesRow = enumerator.Current;
-                            string mesh_name = (string)iesRow["Mesh"];
-                            if (mesh_name.Length != 0 && mesh_name.Split(new char[]
-                            {
-                                '\\'
-                            }).Last<string>().Equals(xacName, StringComparison.InvariantCultureIgnoreCase))
-                            {
-                                string path_name = (string)iesRow["Path"];
-                                if (path_name.Length == 0)
-                                {
-                                    return null;
-                                }
-                                string[] array = path_name.Split(new char[]
-                                {
-                                    '\\'
-                                });
-                                string text4 = array[0];
-                                string text5 = string.Join("\\", array.Skip(1).ToArray<string>());
-                                if (text5 == string.Empty)
-                                {
-                                    text5 = "\\";
-                                }
-                                IPF ipf2;
-                                try
-                                {
-                                    ipf2 = new IPF(ipfFolder + "\\" + text4 + ".ipf");
-                                }
-                                catch
-                                {
-                                    return null;
-                                }
-                                ipf2.LoadSync();
-                                List<string> list2 = new List<string>();
-                                foreach (XAC_ShaderMaterial xac_ShaderMaterial in xac.ShaderMaterials)
-                                {
-                                    string item = null;
-                                    foreach (KeyValuePair<string, string> keyValuePair in xac_ShaderMaterial.StringProperties)
-                                    {
-                                        if (keyValuePair.Key == "DiffuseTex")
-                                        {
-                                            item = text5 + keyValuePair.Value.ToLower().Replace(".tga", ".dds");
-                                            break;
-                                        }
-                                    }
-                                    list2.Add(item);
-                                }
-
-
-                                Bitmap[] array2 = new Bitmap[xac.MaterialTotals.NumFXMaterials];
-                                int num4 = 0;
-                                int num5 = 0;
-                                IPFFileTable[] fileTable = ipf2.FileTable;
-                                for (int j = 0; j < fileTable.Length; j++)
-                                {
-                                    IPFFileTable ipffileTable = fileTable[j];
-                                    string fileName = ipffileTable.directoryName + "\\" + ipffileTable.fileName.ToLower();
-                                    if (list2.Contains(fileName, StringComparer.CurrentCultureIgnoreCase))
-                                    {
-                                        int num6 = Array.FindIndex<string>(list2.ToArray(), (string t) => t.IndexOf(fileName, StringComparison.InvariantCultureIgnoreCase) >= 0);
-                                        string text6 = fileName.Split(new char[]
-                                        {
+                            string text6 = item1.Split(new char[]
+                                                          {
                                             '.'
-                                        }).Last<string>();
-                                        byte[] array3 = ipf2.Extract(num4);
-                                        Bitmap bitmap = null;
-                                        try
-                                        {
-                                            string text7 = text6;
-                                            if (text7 != null)
-                                            {
-                                                if (text7 == "dds")
-                                                {
-                                                    bitmap = new DDSImage(array3).images[0];
-                                                    goto IL_375;
-                                                }
-                                                if (text7 == "tga")
-                                                {
-                                                    bitmap = new TargaImage(array3).Image;
-                                                    goto IL_375;
-                                                }
-                                            }
-                                            using (MemoryStream memoryStream = new MemoryStream(array3))
-                                            {
-                                                bitmap = new Bitmap(memoryStream);
-                                            }
-                                        IL_375:;
-                                        }
-                                        catch (Exception)
-                                        {
-                                            bitmap = null;
-                                        }
-                                        array2[num6] = bitmap;
-                                        num5++;
-                                    }
-                                    if (num5 == list2.Count)
-                                    {
-                                        break;
-                                    }
-                                    num4++;
+                                                          }).Last<string>();
+                            Bitmap bitmap = null;
+                            int index_num = Array.FindIndex<string>(list2.ToArray(), (string t) => t.IndexOf(item1, StringComparison.InvariantCultureIgnoreCase) >= 0);
+
+                            if (text6 != null)
+                            {
+                                if (text6 == "dds")
+                                {
+                                    bitmap = new DDSImage(temp_ipf.Extract(item.idx)).images[0];
                                 }
-                                ipf2.Close();
-                                return array2.ToList<Bitmap>();
+                                if (text6 == "tga")
+                                {
+                                    bitmap = new TargaImage(temp_ipf.Extract(item.idx)).Image;
+                                }
                             }
+
+                            array2[index_num] = bitmap;
+                            found = true;
                         }
-                        goto IL_3DF;
                     }
+
                 }
-                ipf.Close();
-            IL_3DF:
-                return null;
+
+                temp_ipf.Close();
             }
-            return null;
+            if (!found)
+            {
+
+                IPF temp_ipf = null;
+                try
+                {
+                    temp_ipf = new IPF(ipfFolder+"\\item_texture.ipf");
+                }
+                catch
+                {
+                    return null;
+                }
+                temp_ipf.LoadSync();
+
+                foreach (var item in temp_ipf.FileTable)
+                {
+                    foreach (var item1 in list2)
+                    {
+                        if (item.fileName == item1)
+                        {
+                            string text6 = item1.Split(new char[]
+                                                          {
+                                            '.'
+                                                          }).Last<string>();
+                            Bitmap bitmap = null;
+                            int index_num = Array.FindIndex<string>(list2.ToArray(), (string t) => t.IndexOf(item1, StringComparison.InvariantCultureIgnoreCase) >= 0);
+
+                            if (text6 != null)
+                            {
+                                if (text6 == "dds")
+                                {
+                                    bitmap = new DDSImage(temp_ipf.Extract(item.idx)).images[0];
+                                }
+                                if (text6 == "tga")
+                                {
+                                    bitmap = new TargaImage(temp_ipf.Extract(item.idx)).Image;
+                                }
+                            }
+
+                            array2[index_num] = bitmap;
+                            found = true;
+                        }
+                    }
+
+                }
+
+                temp_ipf.Close();
+            }
+
+            if (!found)
+            {
+
+                IPF temp_ipf = null;
+                try
+                {
+                    temp_ipf = new IPF(ipfFolder + "\\bg_texture.ipf");
+                }
+                catch
+                {
+                    return null;
+                }
+                temp_ipf.LoadSync();
+
+                foreach (var item in temp_ipf.FileTable)
+                {
+                    foreach (var item1 in list2)
+                    {
+                        if (item.fileName == item1)
+                        {
+                            string text6 = item1.Split(new char[]
+                                                          {
+                                            '.'
+                                                          }).Last<string>();
+                            Bitmap bitmap = null;
+                            int index_num = Array.FindIndex<string>(list2.ToArray(), (string t) => t.IndexOf(item1, StringComparison.InvariantCultureIgnoreCase) >= 0);
+
+                            if (text6 != null)
+                            {
+                                if (text6 == "dds")
+                                {
+                                    bitmap = new DDSImage(temp_ipf.Extract(item.idx)).images[0];
+                                }
+                                if (text6 == "tga")
+                                {
+                                    bitmap = new TargaImage(temp_ipf.Extract(item.idx)).Image;
+                                }
+                            }
+
+                            array2[index_num] = bitmap;
+                            found = true;
+                        }
+                    }
+
+                }
+
+                temp_ipf.Close();
+            }
+
+
+            return array2.ToList<Bitmap>();
         }
 
         // Token: 0x060000B4 RID: 180 RVA: 0x000080A4 File Offset: 0x000062A4
-        public void SetModel(string filename, XAC xac)
+        public void SetModel(string filename, XAC xac, byte[] contentDds, string ddsName)
         {
             if (this.lastModel != null)
             {
@@ -343,7 +362,7 @@ namespace IPFSuite
 
             if (xac != null)
             {
-                List<Bitmap> textures = this.loadTextures(xac, filename, fMain.IpfDirectory);
+                List<Bitmap> textures = this.loadTextures(xac, filename, fMain.IpfDirectory, contentDds, ddsName);
                 uint numStandardMaterials = xac.MaterialTotals.NumStandardMaterials;
                 Model3DGroup model3DGroup = new Model3DGroup();
                 foreach (XAC_Node node2 in xac.RootNodes.FindAll((XAC_Node node) => node.IsVisible()))

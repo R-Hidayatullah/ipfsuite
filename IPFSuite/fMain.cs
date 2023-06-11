@@ -119,7 +119,6 @@ namespace IPFSuite
 					b2 = ipffileTable.directoryName;
 				}
 			}
-			Console.WriteLine("Done!");
 			this.SetStatusInfo(null, 0, string.Empty);
 			return treeNode;
 		}
@@ -148,10 +147,21 @@ namespace IPFSuite
 					int idx = (int)item.Tag;
 					if (this.tsbPreview.Checked)
 					{
-						if (!(await this.ucPreview.LoadFile(this._ipf.FileTable[idx].fileName, await this._ipf.ExtractAsync(idx))))
+						if (idx>0)
 						{
-							this.SetStatusInfo(new int?(100), 0, "Sorry, but we could not display the selected file in preview.");
-						}
+                            if (!(await this.ucPreview.LoadFile(this._ipf.FileTable[idx].fileName, await this._ipf.ExtractAsync(idx), await this._ipf.ExtractAsync((idx - 1)), this._ipf.FileTable[(idx - 1)].fileName)))
+                            {
+                                this.SetStatusInfo(new int?(100), 0, "Sorry, but we could not display the selected file in preview.");
+                            }
+                        }
+
+						if (idx<=0)
+						{
+                            if (!(await this.ucPreview.LoadFile(this._ipf.FileTable[idx].fileName, await this._ipf.ExtractAsync(idx), await this._ipf.ExtractAsync(idx), this._ipf.FileTable[idx].fileName)))
+                            {
+                                this.SetStatusInfo(new int?(100), 0, "Sorry, but we could not display the selected file in preview.");
+                            }
+                        }
 					}
 					bool csvExport = Path.GetExtension(this._ipf.FileTable[idx].fileName).ToLowerInvariant() == ".ies";
 					this.tsbFileCSVExport.Enabled = csvExport;
