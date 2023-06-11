@@ -183,7 +183,6 @@ namespace IPFSuite
         private List<Bitmap> loadTextures(XAC xac, string xacName, string ipfFolder, byte[] contentDds, string ddsName)
         {
             Bitmap[] array2 = new Bitmap[xac.MaterialTotals.NumFXMaterials];
-            Boolean found = false;
 
             List<string> list2 = new List<string>();
             foreach (XAC_ShaderMaterial xac_ShaderMaterial in xac.ShaderMaterials)
@@ -194,158 +193,148 @@ namespace IPFSuite
                     if (keyValuePair.Key == "DiffuseTex")
                     {
                         item = keyValuePair.Value.ToLower().Replace(".tga", ".dds");
-
+                        Console.WriteLine("Item : " + item);
                         break;
                     }
                 }
                 list2.Add(item);
             }
 
-            if (!found)
+
+            IPF bg_texture = null;
+            try
             {
-
-                IPF temp_ipf = null;
-                try
-                {
-                    temp_ipf = new IPF(ipfFolder+"\\bg_texture.ipf");
-                }
-                catch
-                {
-                    return null;
-                }
-                temp_ipf.LoadSync();
-
-                foreach (var item in temp_ipf.FileTable)
-                {
-                    foreach (var item1 in list2)
-                    {
-                        if (item.fileName == item1)
-                        {
-                            string text6 = item1.Split(new char[]
-                                                          {
-                                            '.'
-                                                          }).Last<string>();
-                            Bitmap bitmap = null;
-                            int index_num = Array.FindIndex<string>(list2.ToArray(), (string t) => t.IndexOf(item1, StringComparison.InvariantCultureIgnoreCase) >= 0);
-
-                            if (text6 != null)
-                            {
-                                if (text6 == "dds")
-                                {
-                                    bitmap = new DDSImage(temp_ipf.Extract(item.idx)).images[0];
-                                }
-                                if (text6 == "tga")
-                                {
-                                    bitmap = new TargaImage(temp_ipf.Extract(item.idx)).Image;
-                                }
-                            }
-
-                            array2[index_num] = bitmap;
-                            found = true;
-                        }
-                    }
-
-                }
-
-                temp_ipf.Close();
+                bg_texture = new IPF(ipfFolder + "\\bg_texture.ipf");
             }
-            if (!found)
+            catch
             {
+                return null;
+            }
+            bg_texture.LoadSync();
 
-                IPF temp_ipf = null;
-                try
+            foreach (var item in bg_texture.FileTable)
+            {
+                foreach (var item1 in list2)
                 {
-                    temp_ipf = new IPF(ipfFolder+"\\item_texture.ipf");
-                }
-                catch
-                {
-                    return null;
-                }
-                temp_ipf.LoadSync();
-
-                foreach (var item in temp_ipf.FileTable)
-                {
-                    foreach (var item1 in list2)
+                    if (item.fileName == item1)
                     {
-                        if (item.fileName == item1)
-                        {
-                            string text6 = item1.Split(new char[]
-                                                          {
+                        string text6 = item1.Split(new char[]
+                                                      {
                                             '.'
-                                                          }).Last<string>();
-                            Bitmap bitmap = null;
-                            int index_num = Array.FindIndex<string>(list2.ToArray(), (string t) => t.IndexOf(item1, StringComparison.InvariantCultureIgnoreCase) >= 0);
+                                                      }).Last<string>();
+                        Bitmap bitmap = null;
+                        int index_num = Array.FindIndex<string>(list2.ToArray(), (string t) => t.IndexOf(item1, StringComparison.InvariantCultureIgnoreCase) >= 0);
 
-                            if (text6 != null)
+                        if (text6 != null)
+                        {
+                            if (text6 == "dds")
                             {
-                                if (text6 == "dds")
-                                {
-                                    bitmap = new DDSImage(temp_ipf.Extract(item.idx)).images[0];
-                                }
-                                if (text6 == "tga")
-                                {
-                                    bitmap = new TargaImage(temp_ipf.Extract(item.idx)).Image;
-                                }
+                                bitmap = new DDSImage(bg_texture.Extract(item.idx)).images[0];
                             }
-
-                            array2[index_num] = bitmap;
-                            found = true;
+                            if (text6 == "tga")
+                            {
+                                bitmap = new TargaImage(bg_texture.Extract(item.idx)).Image;
+                            }
                         }
-                    }
 
+                        array2[index_num] = bitmap;
+                    }
                 }
 
-                temp_ipf.Close();
             }
 
-            if (!found)
+            bg_texture.Close();
+
+
+
+            IPF item_texture = null;
+            try
             {
-
-                IPF temp_ipf = null;
-                try
-                {
-                    temp_ipf = new IPF(ipfFolder + "\\bg_texture.ipf");
-                }
-                catch
-                {
-                    return null;
-                }
-                temp_ipf.LoadSync();
-
-                foreach (var item in temp_ipf.FileTable)
-                {
-                    foreach (var item1 in list2)
-                    {
-                        if (item.fileName == item1)
-                        {
-                            string text6 = item1.Split(new char[]
-                                                          {
-                                            '.'
-                                                          }).Last<string>();
-                            Bitmap bitmap = null;
-                            int index_num = Array.FindIndex<string>(list2.ToArray(), (string t) => t.IndexOf(item1, StringComparison.InvariantCultureIgnoreCase) >= 0);
-
-                            if (text6 != null)
-                            {
-                                if (text6 == "dds")
-                                {
-                                    bitmap = new DDSImage(temp_ipf.Extract(item.idx)).images[0];
-                                }
-                                if (text6 == "tga")
-                                {
-                                    bitmap = new TargaImage(temp_ipf.Extract(item.idx)).Image;
-                                }
-                            }
-
-                            array2[index_num] = bitmap;
-                            found = true;
-                        }
-                    }
-
-                }
-
-                temp_ipf.Close();
+                item_texture = new IPF(ipfFolder + "\\item_texture.ipf");
             }
+            catch
+            {
+                return null;
+            }
+            item_texture.LoadSync();
+
+            foreach (var item in item_texture.FileTable)
+            {
+                foreach (var item1 in list2)
+                {
+                    if (item.fileName == item1)
+                    {
+                        string text6 = item1.Split(new char[]
+                                                      {
+                                            '.'
+                                                      }).Last<string>();
+                        Bitmap bitmap = null;
+                        int index_num = Array.FindIndex<string>(list2.ToArray(), (string t) => t.IndexOf(item1, StringComparison.InvariantCultureIgnoreCase) >= 0);
+
+                        if (text6 != null)
+                        {
+                            if (text6 == "dds")
+                            {
+                                bitmap = new DDSImage(item_texture.Extract(item.idx)).images[0];
+                            }
+                            if (text6 == "tga")
+                            {
+                                bitmap = new TargaImage(item_texture.Extract(item.idx)).Image;
+                            }
+                        }
+
+                        array2[index_num] = bitmap;
+                    }
+                }
+
+            }
+
+            item_texture.Close();
+
+
+            IPF char_texture = null;
+            try
+            {
+                char_texture = new IPF(ipfFolder + "\\char_texture.ipf");
+            }
+            catch
+            {
+                return null;
+            }
+            char_texture.LoadSync();
+
+            foreach (var item in char_texture.FileTable)
+            {
+                foreach (var item1 in list2)
+                {
+                    if (item.fileName == item1)
+                    {
+                        string text6 = item1.Split(new char[]
+                                                      {
+                                            '.'
+                                                      }).Last<string>();
+                        Bitmap bitmap = null;
+                        int index_num = Array.FindIndex<string>(list2.ToArray(), (string t) => t.IndexOf(item1, StringComparison.InvariantCultureIgnoreCase) >= 0);
+
+                        if (text6 != null)
+                        {
+                            if (text6 == "dds")
+                            {
+                                bitmap = new DDSImage(char_texture.Extract(item.idx)).images[0];
+                            }
+                            if (text6 == "tga")
+                            {
+                                bitmap = new TargaImage(char_texture.Extract(item.idx)).Image;
+                            }
+                        }
+
+                        array2[index_num] = bitmap;
+                    }
+                }
+
+            }
+
+            char_texture.Close();
 
 
             return array2.ToList<Bitmap>();
